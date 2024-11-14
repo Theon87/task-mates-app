@@ -16,7 +16,7 @@ interface User {
   interface TaskType {
     _id: string;
     creator: string;
-    assignes: string[];
+    assignees: string[];
     description: Text;
     status: boolean;
     created_at: Date  // Refers to the user ID of the creator
@@ -131,7 +131,8 @@ interface User {
               createdBy: context.user._id,  // Associate the task with the logged-in user
             });
       
-            return task;
+            return task as TaskType;
+
           },
           // Update an existing task
     updateTask: async (_parent: any, { taskId, input }: { taskId: string, input: UpdateTaskInput }, context: Context): Promise<TaskType | null> => {
@@ -149,7 +150,8 @@ interface User {
           throw new Error('Task not found or you do not have permission to edit it');
         }
   
-        return task;
+        return task as TaskType;
+
       },
        // Delete a task
     removeTask: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
@@ -157,13 +159,13 @@ interface User {
           throw new AuthenticationError('You need to be logged in to remove a task');
         }
   
-        const task = await Task.findOneAndDelete({ _id: taskId, createdBy: context.user._id });  // Only allow the user to delete their own task
+        const task = await TaskType.findOneAndDelete({ _id: taskId, createdBy: context.user._id });  // Only allow the user to delete their own task
   
         if (!task) {
           throw new Error('Task not found or you do not have permission to delete it');
         }
   
-        return task;
+        return task as TaskType;
       },
     },
   };

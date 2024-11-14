@@ -31,3 +31,16 @@ const typeDefs = gql`
     email: String!
     password: String!
   }
+      input TaskInput {
+    name: String!
+    description: String
+    completed: Boolean
+    dueDate: String
+  }
+
+  input UpdateTaskInput {
+    name: String
+    description: String
+    completed: Boolean
+    dueDate: String
+  }

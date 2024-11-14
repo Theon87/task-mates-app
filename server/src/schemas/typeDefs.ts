@@ -19,3 +19,15 @@ const typeDefs = gql`
     createdBy: User!
     dueDate: String
   }
+     # Authentication response type (contains token and user details)
+  type Auth {
+    token: String!
+    user: User!
+  }
+
+  # Input types for creating or updating objects
+  input SignupInput {
+    name: String!
+    email: String!
+    password: String!
+  }

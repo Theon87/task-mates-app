@@ -22,3 +22,8 @@ const taskSchema = new Schema<ITask>({
   due_date: { type: Date, required: true },
   date_completed: { type: Date, required: true },
 });
+
+// Create the Task model
+const Task = model<ITask>("Task", taskSchema);
+
+export default Task;

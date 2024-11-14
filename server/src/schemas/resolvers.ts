@@ -25,13 +25,11 @@ interface User {
     password: string;
   }
 
-interface Task {
-    _id: string;
+  interface TaskInput {
     name: string;
     description: string;
-    email: string;
-    password: string;
-    skills: string[];
+    completed: boolean;
+    dueDate: string;
   }
   
   interface ProfileArgs {

@@ -95,5 +95,40 @@ interface User {
 
       return { token, user };  // Return the JWT token and user info
     },
+        // User login (validate credentials and return a token)
+        login: async (_parent: any, { email, password }: { email: string, password: string }, context: Context) => {
+            // Find the user by email
+            const user = await User.findOne({ email });
+            if (!user) {
+              throw new AuthenticationError('Invalid credentials');
+            }
+      
+            // Compare the hashed password
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+              throw new AuthenticationError('Invalid credentials');
+            }
+      
+            // Generate JWT token
+            const token = signToken(user.name, user.email, user._id);
+      
+            return { token, user };  // Return the JWT token and user info
+          },
+      
+          // Create a new task for the logged-in user
+          addTask: async (_parent: any, { input }: { input: TaskInput }, context: Context): Promise<TaskType> => {
+            if (!context.user) {
+              throw new AuthenticationError('You need to be logged in to add a task');
+            }
+      
+            const task = await Task.create({
+              ...input,
+              createdBy: context.user._id,  // Associate the task with the logged-in user
+            });
+      
+            return task;
+          },
+      
+      
   export default resolvers;
   

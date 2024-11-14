@@ -31,31 +31,16 @@ interface User {
     completed: boolean;
     dueDate: string;
   }
-  
-  interface ProfileArgs {
-    profileId: string;
-  }
-  
-  interface AddProfileArgs {
-    input:{
-      name: string;
-      email: string;
-      password: string;
-    }
-  }
-  
-  interface AddSkillArgs {
-    profileId: string;
-    skill: string;
-  }
-  
-  interface RemoveSkillArgs {
-    profileId: string;
-    skill: string;
+
+  interface UpdateTaskInput {
+    name?: string;
+    description?: string;
+    completed?: boolean;
+    dueDate?: string;
   }
   
   interface Context {
-    user?: Profile;
+    user?: { _id: string };  // The logged-in user's ID
   }
   
   const resolvers = {

@@ -7,6 +7,7 @@ interface IUser extends Document {
   first_name: string;
   last_name: string;
   username: string;
+  email: string;
   password: string;
   comparePassword: (password: string) => Promise<boolean>;
 }
@@ -16,5 +17,11 @@ const UserSchema = new Schema<IUser>({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   username: { type: String, required: true, unique: true, minlength: 8 },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/.+@.+\..+/, "Must match an email address!"],
+  },
   password: { type: String, required: true, minlength: 8 },
 });

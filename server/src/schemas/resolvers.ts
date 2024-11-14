@@ -1,6 +1,9 @@
 import { User } from '../models/index.js';  // User model
+import { IUser } from '../models/User.js';  // User interface
+import { Task } from '../models/index.js';  // Task model
 import { signToken, AuthenticationError } from '../utils/auth.js'; // JWT utility for signing tokens
 import bcrypt from 'bcryptjs'; // hash password
+//import { Context } from '../';  // Context interface
 
 interface User {
     _id: string;
@@ -91,7 +94,7 @@ interface User {
       });
 
       // Generate JWT token
-      const token = signToken(user.name, user.email, user._id);
+      const token = signToken(user.username, user.email, user._id);
 
       return { token, user };  // Return the JWT token and user info
     },
@@ -110,7 +113,7 @@ interface User {
             }
       
             // Generate JWT token
-            const token = signToken(user.name, user.email, user._id);
+            const token = signToken(user.username, user.email, user._id);
       
             return { token, user };  // Return the JWT token and user info
           },

@@ -146,7 +146,22 @@ interface User {
   
         return task;
       },
-      
+       // Delete a task
+    removeTask: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to remove a task');
+        }
+  
+        const task = await Task.findOneAndDelete({ _id: taskId, createdBy: context.user._id });  // Only allow the user to delete their own task
+  
+        if (!task) {
+          throw new Error('Task not found or you do not have permission to delete it');
+        }
+  
+        return task;
+      },
+    },
+  };
       
   export default resolvers;
   

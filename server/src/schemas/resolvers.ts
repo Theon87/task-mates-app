@@ -2,6 +2,19 @@ import { User } from '../models/index.js';  // User model
 import { signToken, AuthenticationError } from '../utils/auth.js'; // JWT utility for signing tokens
 import bcrypt from 'bcryptjs'; // hash password
 
+interface User {
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+  }
+  
+  interface SignupInput {
+    name: string;
+    email: string;
+    password: string;
+  }
+
 interface Task {
     _id: string;
     name: string;

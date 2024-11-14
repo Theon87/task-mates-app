@@ -8,6 +8,16 @@ interface User {
     email: string;
     password: string;
   }
+
+
+  interface TaskType {
+    _id: string;
+    name: string;
+    description: string;
+    completed: boolean;
+    createdBy: string;  // Refers to the user ID of the creator
+    dueDate: string;
+  }
   
   interface SignupInput {
     name: string;

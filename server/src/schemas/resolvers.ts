@@ -42,22 +42,34 @@ interface User {
   interface Context {
     user?: { _id: string };  // The logged-in user's ID
   }
-  
-  const resolvers = {
-    Query: {
-      profiles: async (): Promise<Profile[]> => {
-        return await Profile.find();
-      },
-      profile: async (_parent: any, { profileId }: ProfileArgs): Promise<Profile | null> => {
-        return await Profile.findOne({ _id: profileId });
-      },
-      me: async (_parent: any, _args: any, context: Context): Promise<Profile | null> => {
-        if (context.user) {
-          return await Profile.findOne({ _id: context.user._id });
-        }
-        throw AuthenticationError;
-      },
+
+ const resolvers = {
+  Query: {
+    // Fetch the currently authenticated user's profile
+    me: async (_parent: any, _args: any, context: Context) => {
+      if (context.user) {
+        return await User.findById(context.user._id);  // Return user data based on ID
+      }
+      throw new AuthenticationError('You need to be logged in to view your profile');
     },
+
+    // Fetch all tasks for the authenticated user
+    tasks: async (_parent: any, _args: any, context: Context): Promise<TaskType[]> => {
+      if (context.user) {
+        return await Task.find({ createdBy: context.user._id });  // Return tasks for the logged-in user
+      }
+      throw new AuthenticationError('You need to be logged in to view your tasks');
+    },
+
+    // Fetch a single task by taskId, ensuring the user owns the task
+    task: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
+      if (context.user) {
+        return await Task.findOne({ _id: taskId, createdBy: context.user._id });  // Only allow users to view their own tasks
+      }
+      throw new AuthenticationError('You need to be logged in to view this task');
+    },
+  },
+  
     Mutation: {
       addProfile: async (_parent: any, { input }: AddProfileArgs): Promise<{ token: string; profile: Profile }> => {
         const profile = await Profile.create({ ...input });

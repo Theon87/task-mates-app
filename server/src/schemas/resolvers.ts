@@ -72,7 +72,7 @@ interface User {
 
   Mutation: {
     // User signup (create a new user)
-    signup: async (_parent: any, { input }: { input: SignupInput }, context: Context) => {
+    signup: async (_parent: any, { input }: { input: SignupInput }, _context: Context) => {
       // Check if the email already exists
       const existingUser = await User.findOne({ email: input.email });
       if (existingUser) {
@@ -96,7 +96,7 @@ interface User {
       return { token, user };  // Return the JWT token and user info
     },
         // User login (validate credentials and return a token)
-        login: async (_parent: any, { email, password }: { email: string, password: string }, context: Context) => {
+        login: async (_parent: any, { email, password }: { email: string, password: string }, _context: Context) => {
             // Find the user by email
             const user = await User.findOne({ email });
             if (!user) {

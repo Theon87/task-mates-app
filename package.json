@@ -20,6 +20,7 @@
     "license": "ISC",
     "devDependencies": {
         "@types/bcryptjs": "^2.4.6",
+        "@types/node": "^22.9.0",
         "concurrently": "^8.2.2",
         "wait-on": "^7.2.0"
     },

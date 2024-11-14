@@ -1,6 +1,6 @@
 import { User } from '../models/index.js';  // User model
-import { IUser } from '../models/User.js';  // User interface
-import { Task } from '../models/index.js';  // Task model
+//import { IUser } from '../models/User.js';  // User interface
+import { TaskType } from '../models/index.js';  // Task model
 import { signToken, AuthenticationError } from '../utils/auth.js'; // JWT utility for signing tokens
 import bcrypt from 'bcryptjs'; // hash password
 //import { Context } from '../';  // Context interface
@@ -15,11 +15,13 @@ interface User {
 
   interface TaskType {
     _id: string;
-    name: string;
-    description: string;
-    completed: boolean;
-    createdBy: string;  // Refers to the user ID of the creator
-    dueDate: string;
+    creator: string;
+    assignes: string[];
+    description: Text;
+    status: boolean;
+    created_at: Date  // Refers to the user ID of the creator
+    due_date: Date;
+    date_completed: Date;
   }
   
   interface SignupInput {
@@ -59,7 +61,7 @@ interface User {
     // Fetch all tasks for the authenticated user
     tasks: async (_parent: any, _args: any, context: Context): Promise<TaskType[]> => {
       if (context.user) {
-        return await Task.find({ createdBy: context.user._id });  // Return tasks for the logged-in user
+        return await TaskType.find({ createdBy: context.user._id });  // Return tasks for the logged-in user
       }
       throw new AuthenticationError('You need to be logged in to view your tasks');
     },
@@ -67,7 +69,7 @@ interface User {
     // Fetch a single task by taskId, ensuring the user owns the task
     task: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
       if (context.user) {
-        return await Task.findOne({ _id: taskId, createdBy: context.user._id });  // Only allow users to view their own tasks
+        return await TaskType.findOne({ _id: taskId, createdBy: context.user._id });  // Only allow users to view their own tasks
       }
       throw new AuthenticationError('You need to be logged in to view this task');
     },
@@ -124,7 +126,7 @@ interface User {
               throw new AuthenticationError('You need to be logged in to add a task');
             }
       
-            const task = await Task.create({
+            const task = await TaskType.create({
               ...input,
               createdBy: context.user._id,  // Associate the task with the logged-in user
             });
@@ -137,7 +139,7 @@ interface User {
           throw new AuthenticationError('You need to be logged in to update a task');
         }
   
-        const task = await Task.findOneAndUpdate(
+        const task = await TaskType.findOneAndUpdate(
           { _id: taskId, createdBy: context.user._id },  // Ensure the task belongs to the authenticated user
           input,
           { new: true, runValidators: true }

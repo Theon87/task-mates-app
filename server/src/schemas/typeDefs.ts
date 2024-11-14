@@ -61,3 +61,6 @@ const typeDefs = gql`
     removeTask(taskId: ID!): Task!  # Delete a task
   }
 `;
+
+
+export default typeDefs;

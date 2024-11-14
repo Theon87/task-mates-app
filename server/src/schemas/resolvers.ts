@@ -128,6 +128,24 @@ interface User {
       
             return task;
           },
+          // Update an existing task
+    updateTask: async (_parent: any, { taskId, input }: { taskId: string, input: UpdateTaskInput }, context: Context): Promise<TaskType | null> => {
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to update a task');
+        }
+  
+        const task = await Task.findOneAndUpdate(
+          { _id: taskId, createdBy: context.user._id },  // Ensure the task belongs to the authenticated user
+          input,
+          { new: true, runValidators: true }
+        );
+  
+        if (!task) {
+          throw new Error('Task not found or you do not have permission to edit it');
+        }
+  
+        return task;
+      },
       
       
   export default resolvers;

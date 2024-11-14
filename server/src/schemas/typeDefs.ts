@@ -5,8 +5,7 @@ const typeDefs = gql`
   type User {
     _id: ID!
     name: String!
-    email: String!
-    password: String!  
+    email: String! 
     tasks: [Task] # List of tasks created by the user
   }
 

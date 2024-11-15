@@ -1,4 +1,4 @@
 import User from "./User";
-import Task from "./Task";
+import TaskType from "./Task";
 
-export { User, Task };
+export { User, TaskType };

@@ -1,11 +1,11 @@
 import { Schema, model, type Document } from "mongoose";
 
 // Define an interface for the Task document
-interface ITask extends Document {
+export interface ITask extends Document {
   id: number;
   creator: string;
   assignees: string[];
-  descprtion: Text;
+  description: Text;
   status: boolean;
   created_at: Date;
   due_date: Date;
@@ -24,6 +24,6 @@ const taskSchema = new Schema<ITask>({
 });
 
 // Create the Task model
-const Task = model<ITask>("Task", taskSchema);
+const TaskType = model<ITask>("Task", taskSchema);
 
-export default Task;
+export default TaskType;

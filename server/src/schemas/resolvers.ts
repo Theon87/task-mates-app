@@ -1,6 +1,9 @@
 import { User } from '../models/index.js';  // User model
+//import { IUser } from '../models/User.js';  // User interface
+import { TaskType } from '../models/index.js';  // Task model
 import { signToken, AuthenticationError } from '../utils/auth.js'; // JWT utility for signing tokens
 import bcrypt from 'bcryptjs'; // hash password
+//import { Context } from '../';  // Context interface
 
 interface User {
     _id: string;
@@ -12,11 +15,13 @@ interface User {
 
   interface TaskType {
     _id: string;
-    name: string;
-    description: string;
-    completed: boolean;
-    createdBy: string;  // Refers to the user ID of the creator
-    dueDate: string;
+    creator: string;
+    assignees: string[];
+    description: Text;
+    status: boolean;
+    created_at: Date  // Refers to the user ID of the creator
+    due_date: Date;
+    date_completed: Date;
   }
   
   interface SignupInput {
@@ -56,7 +61,7 @@ interface User {
     // Fetch all tasks for the authenticated user
     tasks: async (_parent: any, _args: any, context: Context): Promise<TaskType[]> => {
       if (context.user) {
-        return await Task.find({ createdBy: context.user._id });  // Return tasks for the logged-in user
+        return await TaskType.find({ createdBy: context.user._id });  // Return tasks for the logged-in user
       }
       throw new AuthenticationError('You need to be logged in to view your tasks');
     },
@@ -64,7 +69,7 @@ interface User {
     // Fetch a single task by taskId, ensuring the user owns the task
     task: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
       if (context.user) {
-        return await Task.findOne({ _id: taskId, createdBy: context.user._id });  // Only allow users to view their own tasks
+        return await TaskType.findOne({ _id: taskId, createdBy: context.user._id });  // Only allow users to view their own tasks
       }
       throw new AuthenticationError('You need to be logged in to view this task');
     },
@@ -72,7 +77,7 @@ interface User {
 
   Mutation: {
     // User signup (create a new user)
-    signup: async (_parent: any, { input }: { input: SignupInput }, context: Context) => {
+    signup: async (_parent: any, { input }: { input: SignupInput }, _context: Context) => {
       // Check if the email already exists
       const existingUser = await User.findOne({ email: input.email });
       if (existingUser) {
@@ -91,12 +96,12 @@ interface User {
       });
 
       // Generate JWT token
-      const token = signToken(user.name, user.email, user._id);
+      const token = signToken(user.username, user.email, user._id);
 
       return { token, user };  // Return the JWT token and user info
     },
         // User login (validate credentials and return a token)
-        login: async (_parent: any, { email, password }: { email: string, password: string }, context: Context) => {
+        login: async (_parent: any, { email, password }: { email: string, password: string }, _context: Context) => {
             // Find the user by email
             const user = await User.findOne({ email });
             if (!user) {
@@ -110,7 +115,7 @@ interface User {
             }
       
             // Generate JWT token
-            const token = signToken(user.name, user.email, user._id);
+            const token = signToken(user.username, user.email, user._id);
       
             return { token, user };  // Return the JWT token and user info
           },
@@ -121,12 +126,13 @@ interface User {
               throw new AuthenticationError('You need to be logged in to add a task');
             }
       
-            const task = await Task.create({
+            const task = await TaskType.create({
               ...input,
               createdBy: context.user._id,  // Associate the task with the logged-in user
             });
       
-            return task;
+            return task as TaskType;
+
           },
           // Update an existing task
     updateTask: async (_parent: any, { taskId, input }: { taskId: string, input: UpdateTaskInput }, context: Context): Promise<TaskType | null> => {
@@ -134,7 +140,7 @@ interface User {
           throw new AuthenticationError('You need to be logged in to update a task');
         }
   
-        const task = await Task.findOneAndUpdate(
+        const task = await TaskType.findOneAndUpdate(
           { _id: taskId, createdBy: context.user._id },  // Ensure the task belongs to the authenticated user
           input,
           { new: true, runValidators: true }
@@ -144,7 +150,8 @@ interface User {
           throw new Error('Task not found or you do not have permission to edit it');
         }
   
-        return task;
+        return task as TaskType;
+
       },
        // Delete a task
     removeTask: async (_parent: any, { taskId }: { taskId: string }, context: Context): Promise<TaskType | null> => {
@@ -152,13 +159,13 @@ interface User {
           throw new AuthenticationError('You need to be logged in to remove a task');
         }
   
-        const task = await Task.findOneAndDelete({ _id: taskId, createdBy: context.user._id });  // Only allow the user to delete their own task
+        const task = await TaskType.findOneAndDelete({ _id: taskId, createdBy: context.user._id });  // Only allow the user to delete their own task
   
         if (!task) {
           throw new Error('Task not found or you do not have permission to delete it');
         }
   
-        return task;
+        return task as TaskType;
       },
     },
   };

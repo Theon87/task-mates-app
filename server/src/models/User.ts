@@ -26,12 +26,14 @@ const UserSchema = new Schema<IUser>({
   password: { type: String, required: true, minlength: 8 },
 });
 
-// // Middleware to create password
-// UserSchema.pre<IUser>("save", async function (next) {
-//   if (this.new || this.isModified("password")) {
-//     const saltRounds = 10;
-//     this.password = await bcrypt.hash(this.password, saltRounds);
-//   }
+
+// Middleware to create password
+UserSchema.pre<IUser>("save", async function (next) {
+  if (this.new || this.isModified("password")) { //new must be decalared in the interface
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
 
 //   next();
 // });

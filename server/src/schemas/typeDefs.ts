@@ -8,6 +8,12 @@ const typeDefs = `
     password: String
   }
 
+
+  type Auth {
+    token: ID!
+    user: User
+  }
+
     
   input UserInput {
     name: String!

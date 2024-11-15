@@ -1,3 +1,3 @@
 import User from "../models/User.js";
 
-export { User, TaskType };
+export { User };

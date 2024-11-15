@@ -12,5 +12,4 @@ const typeDefs = `
     user: User
   }
 `;
-
 export default typeDefs;

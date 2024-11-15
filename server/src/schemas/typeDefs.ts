@@ -24,3 +24,5 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
   }
 `;
+
+export default typeDefs;

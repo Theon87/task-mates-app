@@ -7,10 +7,20 @@ const typeDefs = `
     email: String
     password: String
   }
+
+    
+  input UserInput {
+    name: String!
+    email: String!
+    password: String!
+  }
   
   type Query {
     user: User
   }
-`;
 
-export default typeDefs;
+  type Mutation {
+    addUser(input: UserInput!): Auth
+    login(email: String!, password: String!): Auth
+  }
+`;

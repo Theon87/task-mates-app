@@ -15,5 +15,7 @@ const resolvers = {
             return await User.find();
         },
     },
+
+    // add mutation here
 };
 export default resolvers;

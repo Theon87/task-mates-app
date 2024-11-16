@@ -23,5 +23,12 @@ const resolvers = {
             return await User.find();
         },
     },
+    Mutation: {
+        addUser: async (_parent: unknown, { input }: AddUserArgs): Promise<{ token: string; user: User }> => {
+            const user = await User.create({ ...input});
+            const token = signToken(user.last_name, user.email, user._id);
+            return { token, user };
+    }
+    },
 };
 export default resolvers;

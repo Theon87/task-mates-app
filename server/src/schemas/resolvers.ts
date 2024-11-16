@@ -1,4 +1,5 @@
 import { User } from "../models/index.js";
+import { signToken } from "../utils/auth.js";
 
 interface UserArgs {
     userId: string;

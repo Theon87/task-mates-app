@@ -9,6 +9,14 @@ interface UserArgs {
     password: string;
 }
 
+interface AddUserArgs {
+    input: {
+        name: string;
+        email: string;
+        password: string;
+    };
+}
+
 const resolvers = {
     Query: {
         user: async (): Promise<UserArgs[]> => {

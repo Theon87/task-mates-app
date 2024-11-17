@@ -1,8 +1,13 @@
-import './App.css'
-import { Outlet } from 'react-router-dom';
+import "./App.css";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { Outlet } from "react-router-dom";
 
 function App() {
-
   return (
     <>
       <div className="card">
@@ -12,7 +17,7 @@ function App() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

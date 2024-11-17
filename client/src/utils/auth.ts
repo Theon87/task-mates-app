@@ -9,6 +9,11 @@ interface ExtendedJwt extends JwtPayload {
 };
 
 class AuthService {
+    // get User
+    getUser() {
+        return jwtDecode<ExtendedJwt>(this.getToken());
+    }
+
     // check if the user is logged in by checking if the token is expired
     isTokenExpired(token: string): boolean {
         try {

@@ -22,7 +22,7 @@ export default function ErrorPage() {
                 <i>{error.status}</i>
             </p>
             <p>
-                <i>{error.dataadd}</i>
+                <i>{error.data}</i>
             </p>
         </div>
     );

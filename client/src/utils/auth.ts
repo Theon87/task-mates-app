@@ -30,6 +30,19 @@ class AuthService {
         return loggedUser;
     }
 
+    // login user
+    login(idToken: string): void {
+        // store token in local storage
+        localStorage.setItem('id_token', idToken);
+        window.location.assign('/');
+    }
+
+    // logout user
+    logout(): void {
+        // remove token from local storage
+        localStorage.removeItem('id_token');
+        window.location.assign('/');
+    }
 }
 
 export default new AuthService();

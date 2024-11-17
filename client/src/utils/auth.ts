@@ -24,6 +24,11 @@ class AuthService {
         }
     }
 
+    // get token from local storage
+    getToken(): string {
+        const loggedUser = localStorage.getItem('id_token') || '';
+        return loggedUser;
+    }
 
 }
 

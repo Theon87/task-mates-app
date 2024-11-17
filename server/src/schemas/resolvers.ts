@@ -44,11 +44,11 @@ const resolvers = {
         login: async (_parent: unknown, { email, password }: { email: string; password: string }): Promise<{ token: string; user: User }> => {
             const user = await User.findOne({ email });
             if (!user) {
-                throw AuthenticationError;
+                throw new AuthenticationError('Incorrect credentials');
             }
-            const correctPw = await user.isCorrectPassword(password);
+            const correctPw = await user.comparePassword(password);
             if (!correctPw) {
-                throw AuthenticationError;
+                throw new AuthenticationError('Incorrect credentials');
             }
             const token = signToken(user.username, user.email, user._id);
             return { token, user };

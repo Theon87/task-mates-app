@@ -10,8 +10,14 @@ interface ExtendedJwt extends JwtPayload {
 
 class AuthService {
     // get User
-    getUser() {
+    getUser(): ExtendedJwt {
         return jwtDecode<ExtendedJwt>(this.getToken());
+    }
+
+    // check if the user is logged in
+    isLoggedIn(): boolean {
+        const token = this.getToken();
+        return !!token && !this.isTokenExpired(token);
     }
 
     // check if the user is logged in by checking if the token is expired

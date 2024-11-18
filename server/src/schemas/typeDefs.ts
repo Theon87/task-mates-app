@@ -30,7 +30,7 @@ const typeDefs = `
 
   type Task {
     _id: ID
-    creator: String!
+    creator: String
     assignees: [String]!
     task_name: String!
     description: String!
@@ -38,7 +38,6 @@ const typeDefs = `
     created_at: String
     due_date: String
     date_completed: String
-    user: [String]!
   }
 
   input TaskInput {

@@ -1,5 +1,7 @@
 import { User } from "../models/index.js";
+import { Task, TaskDocument } from "../models/Task";
 import { signToken, AuthenticationError } from "../utils/auth.js";
+//import { Schema, model, Document } from "mongoose";
 
 interface UserArgs {
     userId: string;
@@ -29,6 +31,43 @@ interface AddUserArgs {
     };
 }
 
+// interface Task {
+//     _id: number;
+//     creator: string;
+//     assignees: string[];
+//     task_name: string;
+//     description: string;
+//     status: boolean;
+//     created_at: Date;
+//     due_date: Date;
+//     date_completed: Date;
+// }
+
+interface AddTaskArgs {
+    input: {
+        creator: string;
+        assignees: string[];
+        task_name: string;
+        description: string;
+        status: boolean;
+        created_at: Date;
+        due_date: Date;
+        date_completed: Date;
+        user: string[];
+    };
+}
+
+interface RemoveTaskArgs {
+    input: {
+        task_name: string;
+        user: string;
+    };
+}
+
+interface Context {
+    user?: User;
+  }
+
 const resolvers = {
     Query: {
         user: async (): Promise<UserArgs[]> => {
@@ -52,6 +91,20 @@ const resolvers = {
             }
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
+        },
+        addTask: async (_parent: unknown, { input }: AddTaskArgs, context: Context): Promise<TaskDocument> => {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in to add a task.');
+            }
+            const task = await Task.create({ ...input });
+            return task;
+        },
+        removeTask: async (_parent: unknown, { input: { task_name, user } }: RemoveTaskArgs, context: Context): Promise<TaskDocument | null> => {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in to remove a task.');
+            }
+            const task = await Task.findOneAndDelete({ task_name, user });
+            return task;
         },
     },
 };

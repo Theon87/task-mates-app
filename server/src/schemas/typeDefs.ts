@@ -28,7 +28,7 @@ const typeDefs = `
     user: User
   }
 
-  type Task {
+  type AddTask {
     _id: ID
     creator: String
     assignees: [String]!
@@ -47,10 +47,16 @@ const typeDefs = `
     status: Boolean!
   }
 
+  input RemoveTaskInput {
+    task_name: String!
+    user: String!
+  }
+
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
     addTask(input: TaskInput!): Task
+    removeTask(input: RemoveTaskInput!): Task
   }
 `;
 

@@ -1,5 +1,5 @@
 import { User } from "../models/index.js";
-//import { Task } from "../models/index.js";
+import { Task, TaskDocument } from "../models/Task";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 //import { Schema, model, Document } from "mongoose";
 
@@ -57,6 +57,13 @@ interface AddTaskArgs {
     };
 }
 
+interface RemoveTaskArgs {
+    input: {
+        task_name: string;
+        user: string;
+    };
+}
+
 interface Context {
     user?: User;
   }
@@ -85,19 +92,20 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
-        addTask: async (_parent: unknown, { input: { task_name, user } }: AddTaskArgs, context: Context): Promise<User| null> => {
-            if (context.user) {
-                return await User.findOneAndUpdate(
-                    { _id: user },
-                    {
-                        $addToSet: { tasks: task_name },
-                    },
-                    { new: true, runValidators: true,
-                }
-            );
+        addTask: async (_parent: unknown, { input }: AddTaskArgs, context: Context): Promise<TaskDocument> => {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in to add a task.');
             }
-            throw new AuthenticationError('You need to be logged in!');
-        }
+            const task = await Task.create({ ...input });
+            return task;
+        },
+        removeTask: async (_parent: unknown, { input: { task_name, user } }: RemoveTaskArgs, context: Context): Promise<TaskDocument | null> => {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in to remove a task.');
+            }
+            const task = await Task.findOneAndDelete({ task_name, user });
+            return task;
+        },
     },
 };
 export default resolvers;

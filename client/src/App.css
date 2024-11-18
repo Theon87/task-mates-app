@@ -40,3 +40,66 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Default light mode */
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #1b1c1d; /* Semantic UI default dark color */
+  color: #ffffff;
+}
+
+/* Semantic UI Inverted Segment for Footer */
+.ui.inverted.segment {
+  background-color: #1b1c1d !important; /* Dark footer */
+  color: #ffffff !important; /* White text for dark footer */
+}
+
+.ui.toggle.checkbox label {
+  color: #ffffff !important; /* Ensure the label remains visible */
+}
+/* Light mode footer */
+body.light-mode .ui.inverted.segment {
+  background-color: #ffffff !important; /* Light background for footer */
+  color: #000000 !important; /* Dark text for light mode */
+}
+
+/* Dark mode footer */
+body.dark-mode .ui.inverted.segment {
+  background-color: #1b1c1d !important; /* Default dark background for footer */
+  color: #ffffff !important; /* Light text for dark mode */
+}
+
+/* Invert color for moon outline icon in dark mode */
+body.dark-mode .moon.icon {
+  filter: invert(1); /* Invert the colors */
+}
+body.dark-mode label {
+  color: #ffffff !important; /* White label for dark mode */
+}
+
+body.dark-mode .tasks.icon {
+  color: #ffffff !important; /* White icon for dark mode */
+}
+/* Light mode link colors */
+body.dark-mode .ui.menu {
+  background-color: #000000;
+}
+
+/* Dark mode link colors */
+body.light-mode .ui.menu {
+  background-color: #ffffff;
+}
+
+body.dark-mode a {
+  color: #ffffff !important; /* White links for dark mode */
+}
+
+/* Light mode - sun icon color */
+body.light-mode .sun.icon {
+  color: #000000; /* Black for sun icon in light mode */
+}

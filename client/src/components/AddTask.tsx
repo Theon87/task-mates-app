@@ -1,5 +1,4 @@
 import React, { useState}  from 'react';
-import { addSyntheticTrailingComment } from 'typescript';
 
 interface AddTaskProps {
     onAdd: (task:string) => void; // function to handle new task addition

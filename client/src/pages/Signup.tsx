@@ -1,4 +1,44 @@
+import { useState, type FormEvent, type ChangeEvent } from "react";
+// import { Link } from "react-router-dom";
+
+import { useMutation } from "@apollo/client";
+
+import Auth from "../utils/auth";
+import { ADD_USER } from "../utils/mutations";
+
 const Signup = () => {
+  const [formState, setFormState] = useState({
+    first_name: "",
+    last_name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [addUser] = useMutation(ADD_USER);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // submit form
+  const handleFormSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    console.log(formState);
+
+    try {
+      const { data } = await addUser({
+        variables: { input: { ...formState } },
+      });
+
+      Auth.login(data.addUser.token);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <div className="ui container" style={{ marginTop: "50px" }}>
       <div className="ui centered grid">
@@ -7,23 +47,29 @@ const Signup = () => {
             <i className="signup icon"></i>
             <div className="content">Sign Up</div>
           </h2>
-          <form className="ui form" id="signup-form">
+          <form
+            className="ui form"
+            id="signup-form"
+            onSubmit={handleFormSubmit}
+          >
             <div className="field">
               <label>First Name</label>
               <input
                 type="text"
-                name="first-name"
+                name="first_name"
                 placeholder="First Name"
                 required
+                onChange={handleChange}
               />
             </div>
             <div className="field">
               <label>Last Name</label>
               <input
                 type="text"
-                name="last-name"
+                name="last_name"
                 placeholder="Last Name"
                 required
+                onChange={handleChange}
               />
             </div>
             <div className="field">
@@ -33,11 +79,18 @@ const Signup = () => {
                 name="username"
                 placeholder="Username"
                 required
+                onChange={handleChange}
               />
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" name="email" placeholder="Email" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={handleChange}
+              />
             </div>
             <div className="field">
               <label>Password</label>
@@ -46,6 +99,7 @@ const Signup = () => {
                 name="password"
                 placeholder="Password"
                 required
+                onChange={handleChange}
               />
             </div>
             <button className="ui teal button" type="submit">

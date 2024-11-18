@@ -6,6 +6,7 @@ const typeDefs = `
     username: String
     email: String
     password: String
+    tasks: [Task]!
   }
 
 
@@ -37,7 +38,7 @@ const typeDefs = `
     created_at: String
     due_date: String
     date_completed: String
-
+    user: [String]!
   }
 
   input TaskInput {

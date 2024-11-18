@@ -16,3 +16,15 @@ const handleSubmit = (event: React.FromEvent) => {
         setTask("");
     }
 };
+return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)} // Update state on input change
+        placeholder="Enter new task"
+      />
+      <button type="submit">Add Task</button>
+    </form>
+  );
+};

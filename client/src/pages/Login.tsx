@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 
@@ -51,26 +51,6 @@ const Login = () => {
             onSubmit={handleFormSubmit}
           >
             <div className="field">
-              <label>First Name</label>
-              <input
-                type="text"
-                name="first_name"
-                placeholder="First Name"
-                required
-                onChange={handleChange}
-              />
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input
-                type="text"
-                name="last_name"
-                placeholder="Last Name"
-                required
-                onChange={handleChange}
-              />
-            </div>
-            <div className="field">
               <label>Username</label>
               <input
                 type="text"
@@ -104,6 +84,9 @@ const Login = () => {
               Sign Up
             </button>
           </form>
+          <div style={{ marginTop: "20px" }}>
+            Don't have an account?<Link to="/Signup">Log In</Link>
+          </div>
         </div>
       </div>
     </div>

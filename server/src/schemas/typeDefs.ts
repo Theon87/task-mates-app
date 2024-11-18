@@ -27,6 +27,24 @@ const typeDefs = `
     user: User
   }
 
+  type Task {
+    _id: ID!
+    creator: String!
+    assignees: [String]!
+    description: String!
+    status: Boolean!
+    created_at: Date
+    due_date: Date
+    date_completed: Date
+
+  }
+
+  input TaskInput {
+    task: String!
+    completed: Boolean
+    
+  }
+
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth

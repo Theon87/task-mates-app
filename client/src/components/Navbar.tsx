@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
     <div className="ui menu">
       <div className="ui container">
         <a href="/" className="header item">
-          <i className="home icon"></i> Task Mates
+          <i className="tasks icon"></i> Tasks
         </a>
         <div className="right menu">
           <button className="ui button red" onClick={handleLogout}>

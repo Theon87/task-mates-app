@@ -30,12 +30,9 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="card">
-        <h1> HELLO WORLD!</h1>
         <div>
           <Outlet />
         </div>
-      </div>
     </ApolloProvider>
   );
 }

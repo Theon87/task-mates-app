@@ -8,13 +8,12 @@ import { LOGIN_USER } from "../utils/mutations";
 
 const Login = () => {
   const [formState, setFormState] = useState({
-    username: "",
     email: "",
     password: "",
   });
   const [login] = useMutation(LOGIN_USER);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target as HTMLInputElement;
 
     setFormState({
       ...formState,
@@ -29,10 +28,10 @@ const Login = () => {
 
     try {
       const { data } = await login({
-        variables: { input: { ...formState } },
+        variables: { email: formState.email, password: formState.password },
       });
 
-      Auth.login(data.addUser.token);
+      Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
     }
@@ -43,23 +42,13 @@ const Login = () => {
         <div className="six wide column">
           <h2 className="ui teal header">
             <i className="signup icon"></i>
-            <div className="content">Sign Up</div>
+            <div className="content">Login</div>
           </h2>
           <form
             className="ui form"
             id="signup-form"
             onSubmit={handleFormSubmit}
           >
-            <div className="field">
-              <label>Username</label>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-                onChange={handleChange}
-              />
-            </div>
             <div className="field">
               <label>Email</label>
               <input
@@ -81,11 +70,11 @@ const Login = () => {
               />
             </div>
             <button className="ui teal button" type="submit">
-              Sign Up
+              Login
             </button>
           </form>
           <div style={{ marginTop: "20px" }}>
-            Don't have an account?<Link to="/Signup">Log In</Link>
+            Don't have an account? <Link to="/Signup">Signup</Link>
           </div>
         </div>
       </div>

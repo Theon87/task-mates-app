@@ -31,18 +31,20 @@ const typeDefs = `
     _id: ID!
     creator: String!
     assignees: [String]!
+    task_name: String!
     description: String!
     status: Boolean!
-    created_at: Date
-    due_date: Date
-    date_completed: Date
+    created_at: String
+    due_date: String
+    date_completed: String
 
   }
 
   input TaskInput {
-    task: String!
-    completed: Boolean
-    
+    task_name: String!
+    description: String!
+    assignees: [String]!
+    status: Boolean!
   }
 
   type Mutation {

@@ -1,5 +1,7 @@
 import { User } from "../models/index.js";
+import { Task } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
+import { Schema, model, Document } from "mongoose";
 
 interface UserArgs {
     userId: string;
@@ -29,6 +31,31 @@ interface AddUserArgs {
     };
 }
 
+interface Task {
+    _id: number;
+    creator: string;
+    assignees: string[];
+    task_name: string;
+    description: string;
+    status: boolean;
+    created_at: Date;
+    due_date: Date;
+    date_completed: Date;
+}
+
+interface AddTaskArgs {
+    input: {
+        creator: string;
+        assignees: string[];
+        task_name: string;
+        description: string;
+        status: boolean;
+        created_at: Date;
+        due_date: Date;
+        date_completed: Date;
+    };
+}
+
 const resolvers = {
     Query: {
         user: async (): Promise<UserArgs[]> => {
@@ -54,5 +81,8 @@ const resolvers = {
             return { token, user };
         },
     },
+        addTask: async (_parent: unknown, { input }: AddTaskArgs): Promise<ITask> => {
+            return await Task.create({ ...input });
+        }
 };
 export default resolvers;

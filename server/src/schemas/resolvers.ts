@@ -80,9 +80,9 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
-    },
         addTask: async (_parent: unknown, { input }: AddTaskArgs): Promise<Task> => {
             return await Task.create({ ...input });
         }
+    },
 };
 export default resolvers;

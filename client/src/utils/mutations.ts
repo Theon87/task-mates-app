@@ -26,3 +26,26 @@ mutation LOGIN($email: String!, $password: String!) {
   }
 }
 `;
+
+export const ADD_TASK = gql`
+mutation AddTask($input: TaskInput!) {
+  addTask(input: $input) {
+    _id
+    creator
+    assignees
+    task_name
+    description
+    status
+    due_date
+  }
+}
+`;
+
+export const REMOVE_TASK = gql`
+mutation RemoveTask($input: RemoveTaskInput!) {
+  removeTask(input: $input) {
+    creator
+    task_name
+  }
+}
+`;

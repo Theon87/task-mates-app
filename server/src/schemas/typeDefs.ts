@@ -28,7 +28,7 @@ const typeDefs = `
     user: User
   }
 
-  type Task {
+  type AddTask {
     _id: ID
     creator: String
     assignees: [String]!
@@ -45,6 +45,11 @@ const typeDefs = `
     description: String!
     assignees: [String]!
     status: Boolean!
+  }
+
+  input RemoveTaskInput {
+    task_name: String!
+    user: String!
   }
 
   type Mutation {

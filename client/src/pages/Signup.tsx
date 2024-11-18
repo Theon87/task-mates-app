@@ -24,21 +24,6 @@ const Signup = () => {
     });
   };
 
-  // submit form
-  const handleFormSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    console.log(formState);
-
-    try {
-      const { data } = await addUser({
-        variables: { input: { ...formState } },
-      });
-
-      Auth.login(data.addUser.token);
-    } catch (e) {
-      console.error(e);
-    }
-  };
   return (
     <div className="ui container" style={{ marginTop: "50px" }}>
       <div className="ui centered grid">

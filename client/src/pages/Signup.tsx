@@ -1,5 +1,5 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 
@@ -106,6 +106,9 @@ const Signup = () => {
               Sign Up
             </button>
           </form>
+          <div style={{ marginTop: "20px" }}>
+            Already have an account? <Link to="/login">Log In</Link>
+          </div>
         </div>
       </div>
     </div>

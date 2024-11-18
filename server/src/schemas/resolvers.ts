@@ -1,5 +1,7 @@
 import { User } from "../models/index.js";
+//import { Task } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
+//import { Schema, model, Document } from "mongoose";
 
 interface UserArgs {
     userId: string;
@@ -29,6 +31,36 @@ interface AddUserArgs {
     };
 }
 
+// interface Task {
+//     _id: number;
+//     creator: string;
+//     assignees: string[];
+//     task_name: string;
+//     description: string;
+//     status: boolean;
+//     created_at: Date;
+//     due_date: Date;
+//     date_completed: Date;
+// }
+
+interface AddTaskArgs {
+    input: {
+        creator: string;
+        assignees: string[];
+        task_name: string;
+        description: string;
+        status: boolean;
+        created_at: Date;
+        due_date: Date;
+        date_completed: Date;
+        user: string[];
+    };
+}
+
+interface Context {
+    user?: User;
+  }
+
 const resolvers = {
     Query: {
         user: async (): Promise<UserArgs[]> => {
@@ -53,6 +85,19 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
+        addTask: async (_parent: unknown, { input: { task_name, user } }: AddTaskArgs, context: Context): Promise<User| null> => {
+            if (context.user) {
+                return await User.findOneAndUpdate(
+                    { _id: user },
+                    {
+                        $addToSet: { tasks: task_name },
+                    },
+                    { new: true, runValidators: true,
+                }
+            );
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        }
     },
 };
 export default resolvers;

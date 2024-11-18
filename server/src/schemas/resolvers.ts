@@ -1,7 +1,7 @@
 import { User } from "../models/index.js";
 import { Task } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
-import { Schema, model, Document } from "mongoose";
+//import { Schema, model, Document } from "mongoose";
 
 interface UserArgs {
     userId: string;
@@ -81,7 +81,7 @@ const resolvers = {
             return { token, user };
         },
     },
-        addTask: async (_parent: unknown, { input }: AddTaskArgs): Promise<ITask> => {
+        addTask: async (_parent: unknown, { input }: AddTaskArgs): Promise<Task> => {
             return await Task.create({ ...input });
         }
 };

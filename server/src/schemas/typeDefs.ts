@@ -28,7 +28,7 @@ const typeDefs = `
   }
 
   type Task {
-    _id: ID!
+    _id: ID
     creator: String!
     assignees: [String]!
     task_name: String!

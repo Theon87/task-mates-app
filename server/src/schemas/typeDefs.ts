@@ -56,6 +56,7 @@ const typeDefs = `
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
     addTask(input: TaskInput!): Task
+    removeTask(input: RemoveTaskInput!): Task
   }
 `;
 

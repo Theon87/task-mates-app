@@ -28,3 +28,5 @@ return (
     </form>
   );
 };
+
+export default AddTask;

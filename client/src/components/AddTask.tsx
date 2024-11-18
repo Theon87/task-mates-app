@@ -8,3 +8,11 @@ interface AddTaskProps {
 const AddTask: React.FC<AddTaskProps> = ({ onAdd }) => {
     const [task, setTask] = useState("");
 }
+
+const handleSubmit = (event: React.FromEvent) => {
+    event.preventDefault();
+    if (task.trim()) {
+        onAdd(task);
+        setTask("");
+    }
+};

@@ -1,5 +1,5 @@
 import { User } from "../models/index.js";
-import { Task, TaskDocument } from "../models/Task";
+import { Task, TaskDocument } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 //import { Schema, model, Document } from "mongoose";
 

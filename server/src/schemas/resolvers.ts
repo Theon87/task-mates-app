@@ -57,6 +57,18 @@ interface AddTaskArgs {
     };
 }
 
+// interface UpdateTaskArgs {
+//     input: {
+//         creator: string;
+//         assignees: string[];
+//         task_name: string;
+//         description: string;
+//         status: boolean;
+//         created_at: Date;
+//         due_date: Date;
+//         date_completed: Date;    };
+// }
+
 interface RemoveTaskArgs {
     input: {
         task_name: string;

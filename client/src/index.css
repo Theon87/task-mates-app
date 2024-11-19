@@ -13,6 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  text-align: center;
+  min-height: 80vh;
+  margin-top: 2em;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

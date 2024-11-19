@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 //import { Container, Header, Icon, List, Segment } from 'semantic-ui-react';
-import { GET_TASKS,  ADD_TASK } from '../utils/queries';
+import { GET_TASKS } from '../utils/queries';
+import { ADD_TASK } from '../utils/mutations';
 
 //import { useNavigate } from 'react-router-dom';
 

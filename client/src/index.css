@@ -19,6 +19,16 @@
   margin-top: 2em;
 }
 
+.taskMatesLogo {
+  margin-top: 5em;
+  height: 10px;
+  margin-right: 0.5em;
+};
+
+.landingPage {
+  margin-top: 2em;
+};
+
 a {
   font-weight: 500;
   color: #646cff;

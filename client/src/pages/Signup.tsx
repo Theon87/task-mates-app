@@ -42,7 +42,7 @@ const Signup = () => {
   return (
     <div className="ui container" style={{ marginTop: "50px" }}>
       <div className="ui centered grid">
-        <div className="six wide column">
+        <div className="eleven wide column">
           <h2 className="ui teal header">
             <i className="signup icon"></i>
             <div className="content">Sign Up</div>

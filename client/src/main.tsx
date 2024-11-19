@@ -6,8 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import Login from "./pages/Login.tsx";
 import Error from "./pages/Error.tsx";
-import TaskList from "./pages/TaskList.tsx";
+import Home from "./pages/Home.tsx";
 import Signup from "./pages/Signup.tsx";
+import AddTask from "./pages/AddTask.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,15 +18,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Login />,
+        element: <Home />,
       },
       {
-        path: "/tasks",
-        element: <TaskList />,
+        path: "/login",
+        element: <Login />,
       },
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/addtask",
+        element: <AddTask />,
       },
     ],
   },

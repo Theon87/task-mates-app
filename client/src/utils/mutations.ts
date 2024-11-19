@@ -28,8 +28,8 @@ mutation LOGIN($email: String!, $password: String!) {
 `;
 
 export const ADD_TASK = gql`
-mutation AddTask($input: TaskInput!) {
-  addTask(input: $input) {
+mutation AddTask($task_name: String!, $description: String!, $assignees: [String]!, $status: Boolean!) {
+  addTask(task_name: $task_name, description: $description, assignees: $assignees, status: $status) {
     _id
     creator
     assignees
@@ -46,6 +46,20 @@ mutation RemoveTask($input: RemoveTaskInput!) {
   removeTask(input: $input) {
     creator
     task_name
+  }
+}
+`;
+
+export const UPDATE_TASK = gql`
+mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    _id
+    creator
+    assignees
+    task_name
+    description
+    status
+    due_date
   }
 }
 `;

@@ -1,27 +1,25 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { Container, Header, Icon, List, Segment } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+//import { Container, Header, Icon, List, Segment } from 'semantic-ui-react';
 import { GET_TASKS,  ADD_TASK } from '../utils/queries';
 
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 //import AddTaskButton from '../components/AddTaskButton';
 
-const TaskList = () => {
+const TaskList: React.FC = () => {
     const { loading, error, data } = useQuery(GET_TASKS,{
         variables: { task_name: '' },
     });
 
-    const [tasks, setTasks] = useState([]);
-
-    useEffect (() => {
-        if (data && data.tasks) {
-            const completedTasks = data.tasks.filter((task: { status: boolean; }) => task.status === true);
-            setTasks(completedTasks);
-        }
+useEffect(() => {
+    if (data && data.tasks) {
+        const completedTasks = data.tasks.filter((task: { status: boolean; }) => task.status === true);
+        console.log(completedTasks);
+    }
 }, [data]);
 
-const [addTask, { error }] = useMutation
+const [addTask, { error: addTaskError }] = useMutation
 (ADD_TASK, {
     refetchQueries: [{ 
         query: GET_TASKS, variables: { task_name: '' } }],
@@ -30,28 +28,20 @@ const [addTask, { error }] = useMutation
 // const handleFormSubmit = async (event: FormEvent) => {
 //     event.preventDefault();
 
-    function handleFormSubmit(_event: FormEvent<HTMLFormElement>): void {
-        throw new Error('Function not implemented.');
-    }
+    // function handleFormSubmit(_event: FormEvent<HTMLFormElement>): void {
+    //     throw new Error('Function not implemented.');
+    // }
 
-    function handleChange(_event: ChangeEvent<HTMLInputElement>): void {
-        throw new Error('Function not implemented.');
-    }
-
-// const tasks = () => {
-//     const [ formState, setFormState ] = useState({
-//         task_name: '',
-//         description: '',
-//         due_date: '',
-//     });
-// }
-
-
+    // function handleChange(_event: ChangeEvent<HTMLInputElement>): void {
+    //     throw new Error('Function not implemented.');
+    // }
+    if (loading) return <p>Loading...</p>;
+    if (addTaskError) return <p>Error adding task...</p>;
 
 // const AddTask: React.FC = () => {
     const [task_name, setTaskName] = useState('');
     const [description, setDescription] = useState('');
-//     const [due_date, setDueDate] = useState('');
+    const [due_date, setDueDate] = useState('');
     
 //     const [addTask, { error }] = useMutation(ADD_TASK);
 //     const navigate = useNavigate();
@@ -61,16 +51,15 @@ const [addTask, { error }] = useMutation
         try {
             await addTask({ 
                 variables: { 
-                    task_name, description } });
+                    task_name, description, due_date } 
+                });
             setTaskName('');
             setDescription('');
-        } 
-// //Redirect to task list page after the successful addition of a task
-//         navigate('/');
-//     },   catch (err) {
-//     console.error('Error adding task:', err);
-// }
-// };
+            setDueDate('');
+        } catch (err) {
+            console.error('Error adding task:', err);
+        }
+    };
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error loading tasks...</p>;
 
@@ -118,6 +107,9 @@ return (
                                 onChange={(e) => setDueDate(e.target.value)}
                             />
                         </div>
+                <button className="ui teal button" type="submit">
+                Add Task
+                </button>
             </form>
         </div>
     </div>
@@ -125,4 +117,4 @@ return (
     );
 };
 
-export default AddTask;
+export default TaskList;

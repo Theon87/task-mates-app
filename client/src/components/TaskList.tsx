@@ -1,6 +1,5 @@
 //import React from 'react';
 import { Container, Header, Segment, List, Icon, Button } from "semantic-ui-react";
-import AddTasks from "./AddTasks";
 import { Link } from "react-router-dom";
 
 const TaskList = () => {

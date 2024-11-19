@@ -6,13 +6,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Add logic to log out user
     auth.logout();
-
-    // Show a message or notification (optional)
-    alert("Logged out successfully!");
-
-    // Redirect to the login page
     navigate("/");
   };
 

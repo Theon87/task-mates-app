@@ -7,15 +7,15 @@ import { GET_TASKS,  ADD_TASK } from '../utils/queries';
 
 //import AddTaskButton from '../components/AddTaskButton';
 
-const TaskList: React.FC = () => {
+const AddTask: React.FC = () => {
     const { loading, error, data } = useQuery(GET_TASKS,{
         variables: { task_name: '' },
     });
 
 useEffect(() => {
     if (data && data.tasks) {
-        const completedTasks = data.tasks.filter((task: { status: boolean; }) => task.status === true);
-        console.log(completedTasks);
+        const addedTasks = data.tasks.filter((task: { status: boolean; }) => task.status === true);
+        console.log(addedTasks);
     }
 }, [data]);
 
@@ -89,10 +89,10 @@ return (
                             />
                         </div>
                         <div className="field">
-                            <label>Last Name</label>
+                            <label>Task Description</label>
                             <input
                                 type="text"
-                                name="setDescription"
+                                name="description"
                                 placeholder="Task Description"
                                 required
                                 onChange={(e) => setDescription(e.target.value)}
@@ -117,4 +117,4 @@ return (
     );
 };
 
-export default TaskList;
+export default AddTask;

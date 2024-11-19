@@ -31,11 +31,8 @@ export const ADD_TASK = gql`
 mutation AddTask($task_name: String!, $description: String!, $assignees: [String]!, $status: Boolean!) {
   addTask(task_name: $task_name, description: $description, assignees: $assignees, status: $status) {
     _id
-    creator
-    assignees
     task_name
     description
-    status
     due_date
   }
 }

@@ -49,3 +49,17 @@ mutation RemoveTask($input: RemoveTaskInput!) {
   }
 }
 `;
+
+export const UPDATE_TASK = gql`
+mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    _id
+    creator
+    assignees
+    task_name
+    description
+    status
+    due_date
+  }
+}
+`;

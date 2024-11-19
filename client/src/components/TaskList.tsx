@@ -1,6 +1,8 @@
 //import React from 'react';
-import { Container, Header, Segment, List, Icon } from "semantic-ui-react";
+import { Container, Header, Segment, List, Icon, Button } from "semantic-ui-react";
 import AddTasks from "./AddTasks";
+import { Link } from "react-router-dom";
+
 const TaskList = () => {
   const tasks = [
     {
@@ -61,7 +63,9 @@ const TaskList = () => {
           <p>No tasks to display</p>
         )}
       </Segment>
-      <AddTasks onClick={() => console.log("Add task button clicked")} />
+      <Button as={Link} to="/addtask" color="blue">
+        Add Task
+      </Button>
     </Container>
   );
 };

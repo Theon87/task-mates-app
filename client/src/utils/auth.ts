@@ -45,7 +45,7 @@ class AuthService {
     login(idToken: string): void {
         // store token in local storage
         localStorage.setItem('id_token', idToken);
-        window.location.assign('/tasks');
+        window.location.assign('/');
     }
 
     // logout user

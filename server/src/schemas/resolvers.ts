@@ -44,17 +44,10 @@ interface AddUserArgs {
 // }
 
 interface AddTaskArgs {
-    input: {
-        creator: string;
-        assignees: string[];
         task_name: string;
         description: string;
-        status: boolean;
-        created_at: Date;
         due_date: Date;
-        date_completed: Date;
-        user: string[];
-    };
+
 }
 
 // interface UpdateTaskArgs {
@@ -104,11 +97,11 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
-        addTask: async (_parent: unknown, { input }: AddTaskArgs, context: Context): Promise<TaskDocument> => {
+        addTask: async (_parent: unknown, { task_name, description, due_date }: AddTaskArgs, context: Context): Promise<TaskDocument> => {
             if (!context.user) {
                 throw new AuthenticationError('You need to be logged in to add a task.');
             }
-            const task = await Task.create({ ...input });
+            const task = await Task.create({ ... task_name, description, due_date });
             return task;
         },
         removeTask: async (_parent: unknown, { input: { task_name, user } }: RemoveTaskArgs, context: Context): Promise<TaskDocument | null> => {

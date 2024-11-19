@@ -8,6 +8,7 @@ import Login from "./pages/Login.tsx";
 import Error from "./pages/Error.tsx";
 import Home from "./pages/Home.tsx";
 import Signup from "./pages/Signup.tsx";
+import AddTask from "./pages/AddTask.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/addtask",
+        element: <AddTask />,
       },
     ],
   },

@@ -10,15 +10,3 @@ export const GET_TASKS = gql`
       }
   }
 `;
-
-export const ADD_TASK = gql`
-    mutation AddTask($input: AddTaskArgs!) {
-        addTask(input: $input) {
-            creator
-            assignees
-            task_name
-            description
-            due_date
-        }
-    }
-`;

@@ -29,6 +29,13 @@
   margin-top: 2em;
 }
 
+.tasklist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 5em;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

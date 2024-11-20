@@ -40,7 +40,7 @@ const TaskList = () => {
   ];
 
   return (
-    <Container>
+    <Container className="tasklist">
       <Header as="h1" textAlign="center">
         <Icon name="tasks" /> Daily Task List
       </Header>
@@ -53,6 +53,8 @@ const TaskList = () => {
                 <Icon name="tasks" />
                 <List.Content>
                   <List.Header>{task.task_name}</List.Header>
+                  <br></br>
+                  <br></br>
                   <List.Description>{task.description}</List.Description>
                 </List.Content>
               </List.Item>

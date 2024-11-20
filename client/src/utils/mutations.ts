@@ -28,15 +28,12 @@ mutation LOGIN($email: String!, $password: String!) {
 `;
 
 export const ADD_TASK = gql`
-mutation AddTask($task_name: String!, $description: String!, $assignees: [String]!, $status: Boolean!) {
-  addTask(task_name: $task_name, description: $description, assignees: $assignees, status: $status) {
+mutation ADD_TASK($userId: ID!, $taskName: String!, $description: String!, $dueDate: String!) {
+  addTask(userId: $userId, taskName: $taskName, description: $description, dueDate: $dueDate) {
     _id
-    creator
-    assignees
-    task_name
+    taskName
     description
-    status
-    due_date
+    dueDate
   }
 }
 `;

@@ -10,3 +10,24 @@ export const GET_TASKS = gql`
       }
   }
 `;
+
+export const QUERY_USER = gql`
+    query Users {
+        user {
+            _id
+            first_name
+            last_name
+            username
+            email
+        }
+    }
+`;
+
+export const QUERY_ME = gql`
+    query ME {
+        me {
+            _id
+            username
+        }
+}
+`;

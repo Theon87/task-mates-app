@@ -1,16 +1,6 @@
 import { User } from "../models/index.js";
-import { Task, TaskDocument } from "../models/index.js";
+// import { Task, TaskDocument } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
-//import { Schema, model, Document } from "mongoose";
-
-interface UserArgs {
-    userId: string;
-    first_name: string;
-    last_name: string;
-    username: string;
-    email: string;
-    password: string;
-}
 
 interface User {
     _id: number;
@@ -19,6 +9,10 @@ interface User {
     username: string;
     email: string;
     password: string;
+}
+
+interface UserArgs {
+    userId: string;
 }
 
 interface AddUserArgs {
@@ -31,43 +25,20 @@ interface AddUserArgs {
     };
 }
 
-// interface Task {
-//     _id: number;
-//     creator: string;
-//     assignees: string[];
-//     task_name: string;
-//     description: string;
-//     status: boolean;
-//     created_at: Date;
-//     due_date: Date;
-//     date_completed: Date;
-// }
-
 interface AddTaskArgs {
-        task_name: string;
-        description: string;
-        due_date: Date;
+    userId: string;
+    taskName: string;
+    description: string;
+    dueDate: Date;
 
 }
 
-// interface UpdateTaskArgs {
+// interface RemoveTaskArgs {
 //     input: {
-//         creator: string;
-//         assignees: string[];
 //         task_name: string;
-//         description: string;
-//         status: boolean;
-//         created_at: Date;
-//         due_date: Date;
-//         date_completed: Date;    };
+//         user: string;
+//     };
 // }
-
-interface RemoveTaskArgs {
-    input: {
-        task_name: string;
-        user: string;
-    };
-}
 
 interface Context {
     user?: User;
@@ -75,9 +46,18 @@ interface Context {
 
 const resolvers = {
     Query: {
-        user: async (): Promise<UserArgs[]> => {
+        user: async (): Promise<User[]> => {
             return await User.find();
         },
+        userById: async (_parent: unknown, { userId }: UserArgs): Promise<User | null> => {
+            return await User.findOne({ _id: userId });
+        },
+        me: async (_parent: unknown, _args: unknown, context: Context): Promise<User | null> => {
+            if (context.user) {
+                return await User.findOne({ _id: context.user._id });
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        }
     },
     Mutation: {
         addUser: async (_parent: unknown, { input }: AddUserArgs): Promise<{ token: string; user: User }> => {
@@ -97,20 +77,45 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
-        addTask: async (_parent: unknown, { task_name, description, due_date }: AddTaskArgs, context: Context): Promise<TaskDocument> => {
+        addTask: async (_parent: unknown, { userId, taskName, description, dueDate }: AddTaskArgs, context: Context): Promise<User | null> => {
             if (!context.user) {
                 throw new AuthenticationError('You need to be logged in to add a task.');
             }
-            const task = await Task.create({ ... task_name, description, due_date });
-            return task;
-        },
-        removeTask: async (_parent: unknown, { input: { task_name, user } }: RemoveTaskArgs, context: Context): Promise<TaskDocument | null> => {
-            if (!context.user) {
-                throw new AuthenticationError('You need to be logged in to remove a task.');
+            
+            if (!userId || !taskName || !description || !dueDate) {
+                throw new Error('You need to provide a user ID, task name, description, and due date.');
             }
-            const task = await Task.findOneAndDelete({ task_name, user });
-            return task;
+
+            try {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: userId },
+                    {
+                        $addToSet: {
+                            tasks: { taskName, description, dueDate },
+                        },
+                    },
+                    { 
+                        new: true,
+                        runValidators: true
+                    }
+                );
+
+                if (!updatedUser) {
+                    throw new Error('No user found with this id!');
+                }
+                return updatedUser;
+            } catch (error) {
+                console.error(error);
+                throw new Error('Error updating user!');                                
+            }
         },
+        // removeTask: async (_parent: unknown, { input: { task_name, user } }: RemoveTaskArgs, context: Context): Promise<TaskDocument | null> => {
+        //     if (!context.user) {
+        //         throw new AuthenticationError('You need to be logged in to remove a task.');
+        //     }
+        //     const task = await Task.findOneAndDelete({ task_name, user });
+        //     return task;
+        // },
     },
 };
 export default resolvers;

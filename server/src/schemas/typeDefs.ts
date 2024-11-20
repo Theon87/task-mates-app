@@ -6,7 +6,7 @@ const typeDefs = `
     username: String
     email: String
     password: String
-    tasks: [Task]!
+    tasks: [Task]
   }
 
 
@@ -26,24 +26,27 @@ const typeDefs = `
   
   type Query {
     user: User
+    userById(userId: ID!): User
+    me: User
   }
 
   type Task {
     _id: ID
-    task_name: String!
-    description: String!
-    due_date: String
+    taskName: String
+    description: String
+    dueDate: String
   }
 
   input RemoveTaskInput {
     task_name: String!
-    user: String!
+    user: String
   }
 
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
-    addTask(task_name: String!, description: String!, due_date: String!): Task
+
+    addTask(userId: ID!, taskName: String!, description: String!, dueDate: String!): Task
     removeTask(input: RemoveTaskInput!): Task
   }
 `;

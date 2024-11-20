@@ -6,6 +6,8 @@ TaskMates is a shared platform designed to help users efficiently manage and del
 - What and Why
 - Technologies Used
 - Key Features
+- Instructions for Use
+- License
 
 
 ### What and Why

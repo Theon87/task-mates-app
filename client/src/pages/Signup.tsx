@@ -8,8 +8,8 @@ import { ADD_USER } from "../utils/mutations";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
     password: "",
@@ -56,7 +56,7 @@ const Signup = () => {
               <label>First Name</label>
               <input
                 type="text"
-                name="first_name"
+                name="firstName"
                 placeholder="First Name"
                 required
                 onChange={handleChange}
@@ -66,7 +66,7 @@ const Signup = () => {
               <label>Last Name</label>
               <input
                 type="text"
-                name="last_name"
+                name="lastName"
                 placeholder="Last Name"
                 required
                 onChange={handleChange}

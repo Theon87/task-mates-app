@@ -25,7 +25,6 @@ const TaskList = () => {
   const { loading, data } = useQuery(QUERY_ME);
 
   const userData: UserData = data?.me || {};
-  console.log(userData);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -2,42 +2,44 @@
 import { Container, Header, Segment, List, Icon, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../utils/queries";
+
+interface Task {
+  id: string;
+  taskName: string;
+  description: string;
+  dueDate: string;
+}
+
+interface UserData {
+  _id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  tasks: Task[];
+}
+
 const TaskList = () => {
-  const tasks = [
-    {
-      id: 1,
-      creator: "User 1",
-      task_name: "Task 1", //task must have title, was not included in original db diagram
-      collaborators: ["user2"],
-      description: "Task 1 Description",
-      status: false,
-      created_at: Date,
-      due_date: Date,
-      date_completed: Date,
-    },
-    {
-      id: 4,
-      creator: "User 2",
-      task_name: "Task 8", //task must have title, was not included in original db diagram
-      collaborators: ["user4"],
-      description: "Task 1 Description",
-      status: false,
-      created_at: Date,
-      due_date: Date,
-      date_completed: Date,
-    },
-    {
-      id: 3,
-      creator: "User 4",
-      task_name: "Task 9", //task must have title, was not included in original db diagram
-      collaborators: ["user1"],
-      description: "Task 1 Description",
-      status: false,
-      created_at: Date,
-      due_date: Date,
-      date_completed: Date,
-    },
-  ];
+  const { loading, data } = useQuery(QUERY_ME);
+
+  const userData: UserData = data?.me || {};
+  console.log(userData);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userData?._id) {
+    return <h4>You need to be logged in to see this page</h4>;
+  }
+
+  const tasks = userData?.tasks?.map(task => ({
+    taskName: task.taskName,
+    description: task.description,
+    dueDate: task.dueDate
+  })) || [];
 
   return (
     <Container className="tasklist">
@@ -48,11 +50,11 @@ const TaskList = () => {
         <Header as="h3">Tasks to be Completed</Header>
         {tasks.length > 0 ? (
           <List>
-            {tasks.map((task) => (
+            {userData.tasks.map((task) => (
               <List.Item key={task.id}>
                 <Icon name="tasks" />
                 <List.Content>
-                  <List.Header>{task.task_name}</List.Header>
+                  <List.Header>{task.taskName}</List.Header>
                   <br></br>
                   <br></br>
                   <List.Description>{task.description}</List.Description>

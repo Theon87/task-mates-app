@@ -54,9 +54,8 @@ const TaskList = () => {
                 <Icon name="tasks" />
                 <List.Content>
                   <List.Header>{task.taskName}</List.Header>
-                  <br></br>
-                  <br></br>
                   <List.Description>{task.description}</List.Description>
+                  <br></br>
                 </List.Content>
               </List.Item>
             ))}

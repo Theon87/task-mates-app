@@ -1,33 +1,54 @@
 import { gql } from '@apollo/client';
 
-export const GET_TASKS = gql`
-    query GetTasks($task_name: String!) {
-        task(task_name: $task_name) {
-            task_name
-            description
-            status
-            due_date
-      }
+export const QUERY_ALL_USERS = gql`
+query GetAllUsers {
+  users {
+    _id
+    username
+    firstName
+    lastName
+    tasks {
+      _id
+      taskName
+      description
+      dueDate
+    }
   }
+}
 `;
 
-export const QUERY_USER = gql`
-    query Users {
-        user {
-            _id
-            first_name
-            last_name
-            username
-            email
-        }
+export const QUERY_SINGLE_USER = gql`
+query GetOneUser($userId: ID!) {
+  user(userId: $userId) {
+    _id
+    firstName
+    lastName
+    username
+    email
+    tasks {
+      _id
+      taskName
+      description
+      dueDate
     }
+  }
+}
 `;
 
 export const QUERY_ME = gql`
-    query ME {
-        me {
-            _id
-            username
-        }
+query ME {
+  me {
+    _id
+    firstName
+    lastName
+    username
+    email
+    tasks {
+      _id
+      taskName
+      description
+      dueDate
+    }
+  }
 }
 `;

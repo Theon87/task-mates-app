@@ -13,8 +13,7 @@ interface TaskFormProps {
 const AddTask: React.FC<TaskFormProps> = ({ userId }) => {
 
     const { data } = Auth.getUser();
-    userId = data._id;
-    
+    userId = data._id;    
 
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
@@ -39,8 +38,6 @@ const AddTask: React.FC<TaskFormProps> = ({ userId }) => {
         console.error('Error adding task:', err);
         }
     };
-
-    
 
     return (
         <>

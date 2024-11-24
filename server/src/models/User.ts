@@ -4,19 +4,20 @@ import bcrypt from "bcrypt";
 // Define an interface for the User document
 interface IUser extends Document {
   _id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password: string;
+  tasks: string|number[];
   comparePassword: (password: string) => Promise<boolean>;
 }
 
 // Define the User schema
 const UserSchema = new Schema<IUser>({
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  username: { type: String, required: true, unique: true, minlength: 8 },
+  firstName: { type: String, required: true, trim: true },
+  lastName: { type: String, required: true, trim: true },
+  username: { type: String, required: true, unique: true, trim: true },
   email: {
     type: String,
     required: true,
@@ -24,7 +25,20 @@ const UserSchema = new Schema<IUser>({
     match: [/.+@.+\..+/, "Must match an email address!"],
   },
   password: { type: String, required: true, minlength: 8 },
-});
+  tasks: [
+    {
+      taskName: { type: String, required: true, minlength: 1 },
+      description: { type: String, required: true, minlength: 1 },
+      dueDate: { type: Date, required: true },
+    },
+  ],
+},
+{
+  timestamps: true,
+  toJSON: {getters: true},
+  toObject: {getters: true},
+}
+);
 
 // Middleware to create password
 UserSchema.pre<IUser>("save", async function (next) {

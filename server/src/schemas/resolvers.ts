@@ -1,11 +1,10 @@
 import { User } from "../models/index.js";
-// import { Task, TaskDocument } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 
 interface User {
     _id: number;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     username: string;
     email: string;
     password: string;
@@ -17,8 +16,8 @@ interface UserArgs {
 
 interface AddUserArgs {
     input: {
-        first_name: string;
-        last_name: string;
+        firstName: string;
+        lastName: string;
         username: string;
         email: string;
         password: string;
@@ -26,19 +25,11 @@ interface AddUserArgs {
 }
 
 interface AddTaskArgs {
-    userId: string;
+    userId: number;
     taskName: string;
     description: string;
     dueDate: Date;
-
 }
-
-// interface RemoveTaskArgs {
-//     input: {
-//         task_name: string;
-//         user: string;
-//     };
-// }
 
 interface Context {
     user?: User;
@@ -46,10 +37,10 @@ interface Context {
 
 const resolvers = {
     Query: {
-        user: async (): Promise<User[]> => {
+        users: async (): Promise<User[]> => {
             return await User.find();
         },
-        userById: async (_parent: unknown, { userId }: UserArgs): Promise<User | null> => {
+        user: async (_parent: unknown, { userId }: UserArgs): Promise<User | null> => {
             return await User.findOne({ _id: userId });
         },
         me: async (_parent: unknown, _args: unknown, context: Context): Promise<User | null> => {
@@ -57,7 +48,7 @@ const resolvers = {
                 return await User.findOne({ _id: context.user._id });
             }
             throw new AuthenticationError('You need to be logged in!');
-        }
+        },
     },
     Mutation: {
         addUser: async (_parent: unknown, { input }: AddUserArgs): Promise<{ token: string; user: User }> => {
@@ -85,6 +76,8 @@ const resolvers = {
             if (!userId || !taskName || !description || !dueDate) {
                 throw new Error('You need to provide a user ID, task name, description, and due date.');
             }
+
+            console.log(userId, taskName, description, dueDate);
 
             try {
                 const updatedUser = await User.findOneAndUpdate(
